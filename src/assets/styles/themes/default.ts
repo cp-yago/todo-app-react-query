@@ -10,12 +10,10 @@ export const defaultTheme: DefaultTheme =  {
       dark: '#1E6F9F',
     },
     gray: {
-      900: '#222222',
+      900: '#0D0D0D',
+      700: '#222222',
       400: '#333333',
       300: '#808080'
-    },
-    black:{
-      900: '#0D0D0D'
     },
   },
 };
