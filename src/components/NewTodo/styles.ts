@@ -2,8 +2,8 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
-  position: fixed;
-  top: 180px;
+  position: relative;
+  top: -25px;
 `;
 
 export const TextInput = styled.input.attrs({ type: 'text' })`
