@@ -11,9 +11,18 @@ export const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.gray[600]};
   transition: background 0.2s ease-in;
 
+  button {
+    background: none;
+    border: none;
+  }
+
   svg {
     color: ${({ theme }) => theme.colors.primary.light};
     margin: 0 1rem;
+
+    &:hover {
+      color: ${({ theme }) => theme.colors.gray[700]};
+    }
   }
 
   p {

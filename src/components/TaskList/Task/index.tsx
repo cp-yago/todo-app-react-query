@@ -7,7 +7,9 @@ export const Task = () => {
     <Container>
       <CheckIcon size={20} />
       <p>Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer.</p>
-      <BiTrashAlt size={20} />
+      <button>
+        <BiTrashAlt size={20} />
+      </button>
     </Container>
   )
 }
