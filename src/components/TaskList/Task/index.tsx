@@ -17,6 +17,13 @@ export const Task = ({ id, title, done }: Task) => {
 
   const { mutate: deleteTaskMutate } = useMutation({
     mutationFn: deleteTask,
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: ['tasks'] })
+      const previousTasks = queryClient.getQueryData<Task[]>(['tasks'])
+      const tasksFiltered = previousTasks?.filter((task) => task.id !== id)
+      queryClient.setQueryData<Task[]>(['tasks'], () => [...tasksFiltered as Task[]])
+      return { previousTasks };
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
       toast.info('Task removed!', {
@@ -40,7 +47,7 @@ export const Task = ({ id, title, done }: Task) => {
       const task = previousTasks?.find((task) => task.id === id)
       const taskUpdated = { ...task, done: !done }
       const tasksFiltered = previousTasks?.filter((task) => task.id !== id)
-      queryClient.setQueryData<Task[]>(['tasks'], (old: Task[] | undefined) => [...tasksFiltered as Task[], taskUpdated as Task])
+      queryClient.setQueryData<Task[]>(['tasks'], () => [...tasksFiltered as Task[], taskUpdated as Task])
       return { previousTasks };
     },
     onError: (err, newTodo, context) => {
