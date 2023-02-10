@@ -20,3 +20,8 @@ export const postTask = async (data: Task) => {
   return response.data
 }
 
+export const deleteTask = async (id: string) => {
+  const response = await instance.delete<Task>(`/tasks/${id}`)
+  return response.data
+}
+

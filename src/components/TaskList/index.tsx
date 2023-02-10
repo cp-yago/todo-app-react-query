@@ -1,10 +1,6 @@
 import { Container } from './styles'
 import { Task } from './Task'
-
-import {
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { getTasks } from '../../services/api'
 
 export const TaksList = () => {
@@ -14,7 +10,11 @@ export const TaksList = () => {
   return (
     <Container>
       {tasks.data?.map((task) => (
-        <Task title={task.title} done={task.done} />
+        <Task
+          id={task.id}
+          title={task.title}
+          done={task.done}
+        />
       ))}
     </Container>
   )
