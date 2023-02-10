@@ -1,15 +1,22 @@
+import { useQuery } from '@tanstack/react-query'
+import { getTasks } from '../../services/api'
 import { Container, Title, Counter } from './styles'
 
 export const TaskCounter = () => {
+  const query = useQuery({ queryKey: ['tasks'], queryFn: getTasks })
+  const total = query.data?.length || 0
+  const doneTasks = query.data?.filter((task) => task.done).length || 0
   return (
     <Container>
       <div>
         <Title>Tarefas criadas</Title>
-        <Counter>5</Counter>
+        <Counter>{total}</Counter>
       </div>
       <div>
         <Title>Concluídas</Title>
-        <Counter>2 de 5</Counter>
+        <Counter>
+          {`${doneTasks} de ${total}`}
+        </Counter>
       </div>
     </Container>
   )
