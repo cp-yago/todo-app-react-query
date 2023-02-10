@@ -25,3 +25,8 @@ export const deleteTask = async (id: string) => {
   return response.data
 }
 
+export const updateTask = async (id: string, data: Task) => {
+  const response = await instance.put<Task>(`/tasks/${id}`, data)
+  return response.data
+}
+

@@ -3,7 +3,7 @@ import { AiFillCheckCircle as DoneIcon } from 'react-icons/ai'
 import { BsCircle as NotDoneIcon } from 'react-icons/bs'
 import { BiTrashAlt } from 'react-icons/bi'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { deleteTask } from '../../../services/api'
+import { deleteTask, updateTask } from '../../../services/api'
 import { toast } from 'react-toastify'
 
 interface Task {
@@ -15,7 +15,7 @@ interface Task {
 export const Task = ({ id, title, done }: Task) => {
   const queryClient = useQueryClient()
 
-  const { mutate } = useMutation({
+  const { mutate: deleteTaskMutate } = useMutation({
     mutationFn: deleteTask,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
@@ -32,13 +32,38 @@ export const Task = ({ id, title, done }: Task) => {
     }
   });
 
+  const { mutate: toggleTaskStatus } = useMutation({
+    mutationFn: () => updateTask(id, { id, title, done: !done }),
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: ['tasks'] })
+      const previousTasks = queryClient.getQueryData<Task[]>(['tasks'])
+      const task = previousTasks?.find((task) => task.id === id)
+      const taskUpdated = { ...task, done: !done }
+      const tasksFiltered = previousTasks?.filter((task) => task.id !== id)
+      queryClient.setQueryData<Task[]>(['tasks'], (old: Task[] | undefined) => [...tasksFiltered as Task[], taskUpdated as Task])
+      return { previousTasks };
+    },
+    onError: (err, newTodo, context) => {
+      queryClient.setQueryData(['tasks'], context?.previousTasks)
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] })
+    },
+  });
+
   const handleDelete = () => {
-    mutate(id)
+    deleteTaskMutate(id)
+  }
+
+  const handleToggleStatus = () => {
+    toggleTaskStatus()
   }
 
   return (
     <Container>
-      {done ? (<DoneIcon size={20} />) : (<NotDoneIcon size={20} />)}
+      <button onClick={handleToggleStatus}>
+        {done ? (<DoneIcon size={20} />) : (<NotDoneIcon size={20} />)}
+      </button>
       <Title done={done}>{title}</Title>
       <button onClick={handleDelete}>
         <BiTrashAlt size={20} />
