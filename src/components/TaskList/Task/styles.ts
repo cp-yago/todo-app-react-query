@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   padding: 0 16px;
   border-radius: 8px;
   margin: 12px 0;
@@ -37,4 +37,12 @@ export const Container = styled.div`
   &:active {
     background: ${({ theme }) => theme.colors.primary.dark};
   }
+`;
+
+interface TitleProps {
+  done: boolean
+}
+
+export const Title = styled.p<TitleProps>`
+  text-decoration-line: ${({ done }) => done && 'line-through'};
 `;
