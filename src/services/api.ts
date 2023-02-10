@@ -4,7 +4,7 @@ const instance = axios.create({
   baseURL: 'http://localhost:3000',
 });
 
-interface Task {
+export interface Task {
   id: string
   title: string
   done: boolean
@@ -15,7 +15,7 @@ export const getTasks = async () => {
   return response.data
 }
 
-export const createTask = async (data: Task) => {
+export const postTask = async (data: Task) => {
   const response = await instance.post<Task>('/tasks', data)
   return response.data
 }
