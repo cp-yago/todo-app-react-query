@@ -20,7 +20,17 @@ export const NewTodo = () => {
       return { previousTasks };
     },
     onError: (err, newTodo, context) => {
-      queryClient.setQueryData(['tasks'], context?.previousTasks)
+      queryClient.setQueryData(['tasks'], context?.previousTasks);
+      toast.error('Error adding new task! Please, try again later.', {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] })
@@ -36,7 +46,7 @@ export const NewTodo = () => {
         progress: undefined,
         theme: "dark",
       });
-    }
+    },
   });
 
   const handleAddTask = () => {
@@ -51,13 +61,13 @@ export const NewTodo = () => {
     <Container>
       <TextInput
         value={todo}
-        placeholder='Adicione uma nova tarefa'
+        placeholder='Add a new task'
         onChange={(event) => setTodo(event.target.value)}
       />
       <Button
         onClick={handleAddTask}
       >
-        Criar
+        Add
         <AiOutlinePlusCircle />
       </Button>
     </Container>

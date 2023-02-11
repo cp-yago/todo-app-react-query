@@ -9,13 +9,13 @@ export const TaskCounter = () => {
   return (
     <Container>
       <div>
-        <Title>Tarefas criadas</Title>
+        <Title>Total tasks</Title>
         <Counter>{total}</Counter>
       </div>
       <div>
-        <Title>Concluídas</Title>
+        <Title>Completed</Title>
         <Counter>
-          {`${doneTasks} de ${total}`}
+          {`${doneTasks} of ${total}`}
         </Counter>
       </div>
     </Container>
