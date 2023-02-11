@@ -1,3 +1,14 @@
 {
-  "tasks": []
+  "tasks": [
+    {
+      "id": "1676143467562",
+      "title": "Study react query",
+      "done": false
+    },
+    {
+      "id": "1676143485676",
+      "title": "Study node",
+      "done": true
+    }
+  ]
 }
